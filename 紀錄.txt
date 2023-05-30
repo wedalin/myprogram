@@ -1,0 +1,59 @@
+AA溫柔海洋@分享於伊莉
+
+
+1.B/C 品雙數管理
+2.ERP建議單->系統建議單
+
+全勤
+IF  isnull({@TienChuyenCanTong})   THEN
+     0
+ELSE iF {@Songaycong} = 0 AND {@Songaycong_TH}=0  THEN
+    {@TienChuyenCanTong}
+else   round({@Songaycong}*{@TienChuyenCanTong}/{@Songaycong_TH},0)
+
+@songaycong_TH =>
+if {Command.DV_MA}<>'KB' then
+({@CongTT_TH} + {@GiolamdemTH} + {@HS2A_TH} + {@HS3_TH})/8
+else
+0
+
+
+@TienChuyenCanTong =>
+
+    if {Command.DV_MA}='KB' 
+     or  ( {Command.L_KHONGHUONGCHUYENCAN}=true) then
+        0
+    else
+    if {Command.NV_Ngayvao}>{Command.T_TUNGAY}  then
+            if {@GioO_TH}<>0 then
+                0
+            else  
+                    if {@GioRo_TH}+{@GioOM_TH}+{@GioOM1_TH}= 0 then
+                         if (({@songaycong_TH}+({@GioDs_TH}+{@GioNo_TH} +{@GIOLE_TH}+{@GIOP_TH} +{@GIOPo_TH}+{@GioNo1_TH})/8)*(260000/26))-(({@DITRE_TH}*10000+{@QUENQT_TH}*10000 + ({@GioDs_TH}  )/8*10000 + ({@GioPT_TH} )/8*10000+ {@GioNo_TH}/8*5000 + {@GioNo1_TH}/8*5000))<0 then
+                            0
+                         else
+                            round((({@songaycong_TH}+({@GioDs_TH}+{@GIOLE_TH}+{@GIOP_TH} +{@GIOPo_TH}+{@GioNo_TH} + {@GioNo1_TH}) /8)*(260000/26))-(({@DITRE_TH}*10000 + {@QUENQT_TH}*10000 + ({@GioDs_TH} )/8*10000+ ({@GioPT_TH} )/8*10000 + {@GioNo_TH}/8*5000+ {@GioNo1_TH}/8*5000)),-3)
+                   
+                   else if {@GioRo_TH}+{@GioOM_TH}+{@GioOM1_TH} <= 8 then
+                         if (({@songaycong_TH}+(({@GioRo_TH}+{@GioOM_TH}+{@GioOM1_TH}+{@GioDs_TH})/8))*(260000/26))-(({@DITRE_TH}*10000 + {@QUENQT_TH}*10000 + 90000  + ({@GioDs_TH}  )/8*10000 + ({@GioPT_TH} )/8*10000))< 0 then
+                            0
+                         else
+                            round((({@songaycong_TH}+(({@GioRo_TH}+{@GioOM_TH}+{@GioOM1_TH}+{@GioDs_TH})/8))*(260000/26))-(({@DITRE_TH}*10000+{@QUENQT_TH}*10000 + 90000 +({@GioDs_TH}  )/8*10000 + ({@GioPT_TH} )/8*10000)),-3)
+                 
+                    else if {@GioRo_TH}+{@GioOM_TH}+{@GioOM1_TH}>8 and {@GioRo_TH}+{@GioOM_TH}+{@GioOM1_TH}<=16 then 
+                         if (({@songaycong_TH}+(({@GioRo_TH}+{@GioOM_TH}+{@GioOM1_TH}+{@GioDs_TH})/8))*(260000/26))-(({@DITRE_TH}*10000+{@QUENQT_TH}*10000 + 170000  +({@GioDs_TH})/8*10000 + ({@GioPT_TH} )/8*10000))<0 then
+                            0
+                         else
+                            round((({@songaycong_TH}+(({@GioRo_TH}+{@GioOM_TH}+{@GioOM1_TH}+{@GioDs_TH})/8))*(260000/26))-(({@DITRE_TH}*10000+{@QUENQT_TH}*10000 + 170000  +({@GioDs_TH} )/8*10000 + ({@GioPT_TH} )/8*10000)),-3)
+                    else  
+                        0 
+    else if {@GioTSKT_TH}<>0 then
+        if {@ChuyenCanduochuong_TH}-({@GioTS_TH}/8*(260000/26)+{@SONGAYST_HUONGCC}/8*(260000/26)+{@DITRE_TH}*10000+{@QUENQT_TH}*10000+({@GIOR1_TH}+{@GioNo_TH}+{@GioNo1_TH}+{@GIODQ_TH} + {@GIO_KHHGD_TH}+ {@GIOPo_TH} )/8*5000 + ({@GioDs_TH}  )/8*10000 + ({@GioPT_TH} )/8*10000)<0 then
+          0
+        else
+         round({@ChuyenCanduochuong_TH}-( {@GioTS_TH}/8*(260000/26)+{@SONGAYST_HUONGCC}/8*(260000/26)+{@DITRE_TH}*10000+{@QUENQT_TH}*10000+(({@GIOR1_TH}+{@GioNo_TH}+{@GioNo1_TH}+{@GIODQ_TH} + {@GIO_KHHGD_TH}+  {@GIOPo_TH} )/8*5000 +({@GioDs_TH}  )/8*10000 + ({@GioPT_TH} )/8*10000)),0)
+    else
+        if {@ChuyenCanduochuong_TH}-({@DITRE_TH}*10000+{@QUENQT_TH}*10000+({@GIOR1_TH}+{@GioNo_TH}+{@GioNo1_TH}+{@GIODQ_TH} + {@GIO_KHHGD_TH}+  {@GIOPo_TH})/8*5000 +({@GioDs_TH} )/8*10000  + ({@GioPT_TH} )/8*10000)<0 then
+          0
+        else
+   round({@ChuyenCanduochuong_TH}-({@DITRE_TH}*10000+{@QUENQT_TH}*10000+(({@GIOR1_TH}+{@GioNo_TH}+{@GioNo1_TH}+{@GIODQ_TH} + {@GIO_KHHGD_TH}+  {@GIOPo_TH})/8*5000 +({@GioDs_TH} )/8*10000  + ({@GioPT_TH} )/8*10000)),0)
